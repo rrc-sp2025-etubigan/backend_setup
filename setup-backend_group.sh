@@ -8,7 +8,8 @@ e_und=$(tput rmul)
 
 # Script Variables
 setup_name="Backend-Foundation"
-setup_files_path="./backend-setup-script"
+script_path=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+setup_files_path="backend-setup-script"
 
 echo -e "${bold}Current Directory: ${PWD}${normal}"
 run_script=""
@@ -97,7 +98,7 @@ if [ -f ./${setup_name}/tsconfig.json ]; then
     sleep 1
 else
     echo -e "${bold}Creating 'tsconfig.json' file:${normal}"
-    cp ${setup_files_path}/tsconfig-setup.txt ./${setup_name}/tsconfig.json
+    cp ${script_path}/${setup_files_path}/tsconfig-setup.txt ./${setup_name}/tsconfig.json
     echo -e "'tsconfig.json' file created.\n"
     sleep 1
 fi
@@ -121,8 +122,8 @@ sleep 1
 
 # Create app.ts and server.ts file
 echo -e "${bold}Creating 'app.ts' & 'server.ts' files:${normal}"
-cp ${setup_files_path}/app-setup.txt ./${setup_name}/src/app.ts
-cp ${setup_files_path}/server-setup.txt ./${setup_name}/src/server.ts
+cp ${script_path}/${setup_files_path}/app-setup.txt ./${setup_name}/src/app.ts
+cp ${script_path}/${setup_files_path}/server-setup.txt ./${setup_name}/src/server.ts
 echo -e "'app.ts' & 'server.ts' file created in source directory\n"
 sleep 1
 
@@ -135,7 +136,7 @@ sleep 1
 # Create Jest configuration file and test directory
 echo -e "${bold}Creating 'jest.config.js' file & 'test' directory:${normal}"
 mkdir ${setup_name}/test
-cp ${setup_files_path}/jest-setup.txt ./${setup_name}/jest.config.js
+cp ${script_path}/${setup_files_path}/jest-setup.txt ./${setup_name}/jest.config.js
 echo -e "'jest.config.js' file created in root directory\n"
 sleep 1
 
