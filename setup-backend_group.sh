@@ -15,7 +15,6 @@ function format_text() {
         blue) font_color=$(tput setaf 4) ;;
         magenta) font_color=$(tput setaf 5) ;;
         cyan) font_color=$(tput setaf 6) ;;
-        #*) font_color=$(tput setaf 9) ;;
     esac
 
     case $3 in
@@ -143,10 +142,10 @@ format_text "'src' directory and sub-directories are created.\n" "green"
 sleep 1
 
 # Create app.ts and server.ts file
-format_text "Creating 'app.ts' & 'server.ts' files:" "" "bold" #this
+format_text "Creating 'app.ts' & 'server.ts' files:" "" "bold"
 cp ${script_path}/${setup_files_path}/app-setup.txt ./${setup_name}/src/app.ts
 cp ${script_path}/${setup_files_path}/server-setup.txt ./${setup_name}/src/server.ts
-format_text "'app.ts' & 'server.ts' file created in source directory\n" "green" #this
+format_text "'app.ts' & 'server.ts' file created in source directory\n" "green"
 sleep 1
 
 # Install Jest
