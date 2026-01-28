@@ -33,7 +33,7 @@ setup_name="Backend-Foundation"
 script_path=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 setup_files_path="backend-setup-script"
 
-echo -e "${bold}Current Directory: ${PWD}${normal}"
+format_text "Current Directory: ${PWD}" "cyan" "normal"
 run_script=""
 
 while :;
@@ -42,15 +42,15 @@ do
 
     case "${run_script}" in
 	y)
-	    echo -e "Running script.\n"
+        format_text "Running script.\n" "green" "blink"
 	    break
-            ;;
+        ;;
 	n)
-	    echo -e "Exiting from script.\n"
+        format_text "Exiting from script.\n" "red" "bold"
 	    exit
 	    ;;
 	*)
-	    echo -e "Answer with <y/n>.\n"
+        format_text "Answer with <y/n> \n" "red" "bold" ;;
     esac
 done
 
@@ -65,9 +65,9 @@ done
 # Modify Code to consider use of GitHub template.
 case "${github}" in
     y)
-        echo -e "${s_und}The script will use the GitHub template.\n${e_und}";;
+        format_text "The script will use the GitHub template.\n" "green" "underline" ;;
     *)
-        echo -e "The script will not use the GitHub template.\n";;
+        format_text "The script will NOT use the GitHub template.\n" "yellow" "normal";;
 esac
 
 # GitHub Repository Creation
@@ -79,12 +79,12 @@ if [[ ${github} =~ ^[yY]$ ]]; then
     # Keep prompting user for repo name until it is correct.
     while :;
     do
-        read -p "Prompt user for repository name: " ghrepo
+        read -p "Please pick a name for the repository: " ghrepo
 
 	if [[ ${ghrepo} =~ ^[a-zA-Z0-9_\-]+$ ]]; then
 	    break
 	else
-	    echo -e "Invalid Name."
+        format_text "Invalid Name." "red" "bold"
 	fi
     done
 
@@ -93,7 +93,7 @@ if [[ ${github} =~ ^[yY]$ ]]; then
     gh repo create ${ghrepo} --private --clone -p https://github.com/DaveRRC/BED-template
     mv ${ghrepo} ${setup_name}
 else
-    echo -e "Skipping GitHub repository creation."
+    format_text "Skipping GitHub repository creation." "yellow"
     mkdir ${setup_name}
 fi
 
@@ -102,68 +102,68 @@ fi
 #exit
 
 # Script Files and Directories creation.
-echo -e "${bold}Starting installation:\n${normal}"
+format_text "Starting installation:\n" "green" "bold"
 npm init -y &> /dev/null
 mv package.json ./${setup_name}
-echo -e "Created and moved 'package.json' to ${PWD}/${setup_name}"
+format_text "Created and moved 'package.json' to ${PWD}/${setup_name}\n"
 sleep 1
 
 # Install Typescript
-echo -e "${bold}Installing TypeScript:${normal}"
+format_text "Installing TypeScript:" "" "bold"
 npm install --prefix ./${setup_name} typescript ts-node @types/node --save-dev
-echo -e "TypeScript installed.\n"
+format_text "TypeScript installed.\n" "green"
 sleep 1
 
 # Create tsconfig.json file
 if [ -f ./${setup_name}/tsconfig.json ]; then
-    echo -e "File: 'tsconfig.json' already exists, skipping creation.\n"
+    format_text "File: 'tsconfig.json' already exists, skipping creation.\n" "yellow"
     sleep 1
 else
-    echo -e "${bold}Creating 'tsconfig.json' file:${normal}"
+    format_text "Creating 'tsconfig.json' file:"
     cp ${script_path}/${setup_files_path}/tsconfig-setup.txt ./${setup_name}/tsconfig.json
-    echo -e "'tsconfig.json' file created.\n"
+    format_text "'tsconfig.json' file created.\n" "green"
     sleep 1
 fi
 
 # Install Express & Morgan
-echo -e "${bold}Installing Express:${normal}"
+format_text "Installing Express:" "" "bold"
 npm install --prefix ./${setup_name} express
 npm install --prefix ./${setup_name} @types/express --save-dev
-echo -e "Express installed.\n"
+format_text "Express installed.\n" "green" 
 sleep 1
-echo -e "${bold}Installing Morgan (HTTP Logging):${normal}"
+format_text "Installing Morgan (HTTP Logging):" "" "bold"
 npm install --prefix ./${setup_name} morgan @types/morgan
-echo -e "Morgan installed.\n"
+format_text "Morgan installed.\n" "green"
 sleep 1
 
 # Create src folder and sub-directories
-echo -e "${bold}Creating directory system:${normal}"
+format_text "Creating directory system:" "" "bold"
 mkdir -p ${setup_name}/src/api/v1 ${setup_name}/src/api/v1/routes ${setup_name}/src/api/v1/controllers ${setup_name}/src/api/v1/services
-echo -e "'src' directory and sub-directories are created.\n"
+format_text "'src' directory and sub-directories are created.\n" "green"
 sleep 1
 
 # Create app.ts and server.ts file
-echo -e "${bold}Creating 'app.ts' & 'server.ts' files:${normal}"
+format_text "Creating 'app.ts' & 'server.ts' files:" "" "bold"
 cp ${script_path}/${setup_files_path}/app-setup.txt ./${setup_name}/src/app.ts
 cp ${script_path}/${setup_files_path}/server-setup.txt ./${setup_name}/src/server.ts
-echo -e "'app.ts' & 'server.ts' file created in source directory\n"
+format_text "'app.ts' & 'server.ts' file created in source directory\n" "green"
 sleep 1
 
 # Install Jest
-echo -e "${bold}Installing Jest:${normal}"
+format_text "Installing Jest:" "" "bold"
 npm install --prefix ./${setup_name} jest ts-jest @types/jest supertest @types/supertest --save-dev
-echo -e "Jest installed.\n"
+format_text "Jest installed.\n" "green"
 sleep 1
 
 # Create Jest configuration file and test directory
-echo -e "${bold}Creating 'jest.config.js' file & 'test' directory:${normal}"
+format_text "Creating 'jest.config.js' file & 'test' directory:" "" "bold"
 mkdir ${setup_name}/test
 cp ${script_path}/${setup_files_path}/jest-setup.txt ./${setup_name}/jest.config.js
-echo -e "'jest.config.js' file created in root directory\n"
+format_text "'jest.config.js' file created in root directory\n" "green"
 sleep 1
 
 # Modify package.json file
-echo -e "${bold}Modifying scripts section in 'package.json' file:${normal}\n"
+format_text "Modifying scripts section in 'package.json' file:\n" "" "bold"
 
 package_path="./${setup_name}/package.json"
 
@@ -178,7 +178,7 @@ sleep 1
 #echo -e "${bold}Directory Tree:${normal}"
 #tree ./${setup_name} -a -I node_modules/ -I .git
 
-echo -e "${bold}Listing ./${setup_name}/${normal}"
+format_text "Listing ./${setup_name}/" "" "bold"
 ls -A ${setup_name}
-echo -e "${bold}Listing ./${setup_name}/src/${normal}"
+format_text "Listing ./${setup_name}/src/" "" "bold"
 ls -A ${setup_name}/src
