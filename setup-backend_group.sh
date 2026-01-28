@@ -2,7 +2,7 @@
 
 function format_text() {
     local text=$1
-    local text_regex="^[ a-zA-Z0-9\:\.-]+$"
+    local text_regex="^[ a-zA-Z0-9\:\.\/\<\>-]+$"
     if [[ ${text} =~ ${text_regex} ]]; then text=$1 ; else text="undefined" ; fi
 
     local font_color=$2   #"\e[0m"
