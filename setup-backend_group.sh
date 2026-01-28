@@ -2,7 +2,7 @@
 
 function format_text() {
     local text=$1
-    local text_regex="^[ a-zA-Z0-9\:\.\/\<\>\'-]+$"
+    local text_regex="^[ a-zA-Z0-9\:\.\/\<\>\'\(\)\&-]+$"
     if [[ ${text} =~ ${text_regex} ]]; then text=$1 ; else text="undefined" ; fi
 
     local font_color=$2
@@ -15,7 +15,7 @@ function format_text() {
         blue) font_color=$(tput setaf 4) ;;
         magenta) font_color=$(tput setaf 5) ;;
         cyan) font_color=$(tput setaf 6) ;;
-        *) font_color=$(tput setaf 9) ;;
+        #*) font_color=$(tput setaf 9) ;;
     esac
 
     case $3 in
@@ -143,10 +143,10 @@ format_text "'src' directory and sub-directories are created.\n" "green"
 sleep 1
 
 # Create app.ts and server.ts file
-format_text "Creating 'app.ts' & 'server.ts' files:" "" "bold"
+format_text "Creating 'app.ts' & 'server.ts' files:" "" "bold" #this
 cp ${script_path}/${setup_files_path}/app-setup.txt ./${setup_name}/src/app.ts
 cp ${script_path}/${setup_files_path}/server-setup.txt ./${setup_name}/src/server.ts
-format_text "'app.ts' & 'server.ts' file created in source directory\n" "green"
+format_text "'app.ts' & 'server.ts' file created in source directory\n" "green" #this
 sleep 1
 
 # Install Jest
@@ -178,7 +178,7 @@ sleep 1
 #echo -e "${bold}Directory Tree:${normal}"
 #tree ./${setup_name} -a -I node_modules/ -I .git
 
-format_text "Listing ./${setup_name}/" "" "bold"
+format_text "Listing ./${setup_name}/" "blue" "bold"
 ls -A ${setup_name}
-format_text "Listing ./${setup_name}/src/" "" "bold"
+format_text "Listing ./${setup_name}/src/" "blue" "bold"
 ls -A ${setup_name}/src
