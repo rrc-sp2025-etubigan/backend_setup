@@ -2,31 +2,30 @@
 
 function format_text() {
     local text=$1
-    local text_regex="^[ a-zA-Z0-9\:\.\/\<\>-]+$"
+    local text_regex="^[ a-zA-Z0-9\:\.\/\<\>\'-]+$"
     if [[ ${text} =~ ${text_regex} ]]; then text=$1 ; else text="undefined" ; fi
 
-    local font_color=$2   #"\e[0m"
-    if [[ ${font_color} =~ ^[a-zA-z]+$ ]]; then font_color=$2 ; else font_color="\e[0m" ; fi
-    
-    local font_format=$3  #$(tput sgr0)
-    if [[ ${font_format} =~ ^[a-zA-Z]+$ ]]; then font_format=$3 ; else font_format=$(tput sgr0) ; fi
+    local font_color=$2
+    local font_format=$3
+
+    case $2 in
+        red) font_color=$(tput setaf 1) ;;
+        green) font_color=$(tput setaf 2) ;;
+        yellow) font_color=$(tput setaf 3) ;;
+        blue) font_color=$(tput setaf 4) ;;
+        magenta) font_color=$(tput setaf 5) ;;
+        cyan) font_color=$(tput setaf 6) ;;
+        *) font_color=$(tput setaf 9) ;;
+    esac
 
     case $3 in
         bold) font_format=$(tput bold) ;;
         underline) font_format=$(tput smul) ;;
-        blink) font_format=$(tput blink)
+        blink) font_format=$(tput blink) ;;
+        *) font_format=$(tput sgr0) ;;
     esac
 
-    case $2 in
-        red) font_color="\e[31m" ;;
-        green) font_color="\e[32m" ;;
-        yellow) font_color="\e[33m" ;;
-        blue) font_color="\e[34m" ;;
-        magenta) font_color="\e[35m" ;;
-        cyan) font_color="\e[36m" ;;
-    esac
-
-    echo -e "${font_format}${font_color}${text}$(tput sgr0)\e[0m"
+    echo -e "${font_format}${font_color}${text}$(tput sgr0)"
 }
 
 # Script Variables
