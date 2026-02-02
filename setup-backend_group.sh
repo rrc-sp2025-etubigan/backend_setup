@@ -216,19 +216,28 @@ if $create_struct; then
 
     package_path="./${setup_name}/package.json"
 
-    sed -i '7s/.*/\t"start": "ts\-node src\/server.ts",\n/' ${package_path}
-    sed -i '8s/.*/\t"build": "tsc",\n/' ${package_path}
-    sed -i '9s/.*/\t"test": "jest",\n/' ${package_path}
-    sed -i '10s/.*/\t"test:watch": "jest --watch",\n/' ${package_path}
-    sed -i '11s/.*/\t"test:coverage": "jest --coverage"/' ${package_path}
-    sleep 1
+    if [ -f ${package_path} ];then
+        sed -i '7s/.*/\t"start": "ts\-node src\/server.ts",\n/' ${package_path}
+        sed -i '8s/.*/\t"build": "tsc",\n/' ${package_path}
+        sed -i '9s/.*/\t"test": "jest",\n/' ${package_path}
+        sed -i '10s/.*/\t"test:watch": "jest --watch",\n/' ${package_path}
+        sed -i '11s/.*/\t"test:coverage": "jest --coverage"/' ${package_path}
+        sleep 1
+    fi
 fi
 
-# Requires Tree package to be installed.
-#echo -e "${bold}Directory Tree:${normal}"
-#tree ./${setup_name} -a -I node_modules/ -I .git
 
-format_text "Listing ./${setup_name}/" "blue" "bold"
-ls -A ${setup_name}
-format_text "Listing ./${setup_name}/src/" "blue" "bold"
-ls -A ${setup_name}/src
+if [[ !($ask_npm_mods) && !($ask_create_structs) ]];then
+    rm -r ${setup_name}
+fi
+
+if [[ -d ./${setup_name} ]]; then
+    # Requires Tree package to be installed.
+    #echo -e "${bold}Directory Tree:${normal}"
+    #tree ./${setup_name} -a -I node_modules/ -I .git
+    
+    format_text "Listing ./${setup_name}/" "blue" "bold"
+    ls -A ${setup_name}
+    format_text "Listing ./${setup_name}/src/" "blue" "bold"
+    ls -A ${setup_name}/src
+fi
