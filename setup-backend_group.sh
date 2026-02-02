@@ -80,11 +80,11 @@ if [[ ${github} =~ ^[yY]$ ]]; then
     do
         read -p "Please pick a name for the repository: " ghrepo
 
-	if [[ ${ghrepo} =~ ^[a-zA-Z0-9_\-]+$ ]]; then
-	    break
-	else
-        format_text "Invalid Name." "red" "bold"
-	fi
+        if [[ ${ghrepo} =~ ^[a-zA-Z0-9_\-]+$ ]]; then
+            break
+        else
+            format_text "Invalid Name." "red" "bold"
+        fi
     done
 
     # Create remote repo on GH and clone into current directory.
@@ -92,7 +92,7 @@ if [[ ${github} =~ ^[yY]$ ]]; then
     gh repo create ${ghrepo} --private --clone -p https://github.com/DaveRRC/BED-template
     mv ${ghrepo} ${setup_name}
 else
-    format_text "Skipping GitHub repository creation." "yellow"
+    format_text "Skipping GitHub repository creation.\n" "yellow"
     mkdir ${setup_name}
 fi
 
@@ -109,7 +109,7 @@ do
 
     case "${ask_npm_mods}" in
 	y)
-        format_text "Installing modules..." "green" "blink"
+        format_text "Installing modules...\n" "green" "blink"
         break
         ;;
 	n)
@@ -155,7 +155,6 @@ if $install_npm_mods; then
     sleep 1
 fi
 
-
 # Project file creation.
 ask_create_structs=""
 
@@ -165,7 +164,7 @@ do
 
     case "${ask_create_structs}" in
 	y)
-        format_text "Creating project structure..." "green" "blink"
+        format_text "Creating project structure...\n" "green" "blink"
 	    break
         ;;
 	n)
@@ -235,7 +234,7 @@ if [[ -d ./${setup_name} ]]; then
     # Requires Tree package to be installed.
     #echo -e "${bold}Directory Tree:${normal}"
     #tree ./${setup_name} -a -I node_modules/ -I .git
-    
+
     format_text "Listing ./${setup_name}/" "blue" "bold"
     ls -A ${setup_name}
     format_text "Listing ./${setup_name}/src/" "blue" "bold"
