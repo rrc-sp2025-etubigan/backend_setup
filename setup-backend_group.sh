@@ -27,6 +27,19 @@ function format_text() {
     echo -e "${font_format}${font_color}${text}$(tput sgr0)"
 }
 
+function ask_user_yn() {
+    while :;
+    do
+        read -p "Message: " variable_name
+
+        case "" in
+            y)  ;;
+            n)  ;;
+            *)  ;;
+        esac
+    done
+}
+
 # Script Variables
 setup_name="Backend-Foundation"
 script_path=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
