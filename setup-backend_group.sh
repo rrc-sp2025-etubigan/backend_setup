@@ -193,6 +193,7 @@ if $create_struct; then
     # Create src folder and sub-directories
     format_text "Creating directory system:" "" "bold"
     mkdir -p ${setup_name}/src/api/v1/{routes,controllers,services}
+    mkdir ${setup_name}/src/constants
     format_text "'src' directory and sub-directories are created.\n" "green"
     sleep 1
 
@@ -202,6 +203,11 @@ if $create_struct; then
     cp ${script_path}/${setup_files_path}/server-setup.txt ./${setup_name}/src/server.ts
     format_text "'app.ts' & 'server.ts' file created in source directory\n" "green"
     sleep 1
+
+    # Create HTTP Constants file
+    format_text "Creating 'httpConstants.ts' file:" "" "bold"
+    cp ${script_path}/${setup_files_path}/http-status-setup.txt ./${setup_name}/src/constants/httpConstants.ts
+    format_text "'app.ts' file created in src/constants directory\n" "" "green"
 
     # Create Jest configuration file and test directory
     format_text "Creating 'jest.config.js' file & 'test' directory:" "" "bold"
