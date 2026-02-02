@@ -100,6 +100,7 @@ fi
 # UNCOMMENT TO USE SCRIPT
 #exit
 
+# NPM Module installation.
 # Script Files and Directories creation.
 format_text "Starting installation:\n" "green" "bold"
 npm init -y &> /dev/null
@@ -113,17 +114,6 @@ npm install --prefix ./${setup_name} typescript ts-node @types/node --save-dev
 format_text "TypeScript installed.\n" "green"
 sleep 1
 
-# Create tsconfig.json file
-if [ -f ./${setup_name}/tsconfig.json ]; then
-    format_text "File: 'tsconfig.json' already exists, skipping creation.\n" "yellow"
-    sleep 1
-else
-    format_text "Creating 'tsconfig.json' file:"
-    cp ${script_path}/${setup_files_path}/tsconfig-setup.txt ./${setup_name}/tsconfig.json
-    format_text "'tsconfig.json' file created.\n" "green"
-    sleep 1
-fi
-
 # Install Express & Morgan
 format_text "Installing Express:" "" "bold"
 npm install --prefix ./${setup_name} express
@@ -134,6 +124,25 @@ format_text "Installing Morgan (HTTP Logging):" "" "bold"
 npm install --prefix ./${setup_name} morgan @types/morgan
 format_text "Morgan installed.\n" "green"
 sleep 1
+
+# Install Jest
+format_text "Installing Jest:" "" "bold"
+npm install --prefix ./${setup_name} jest ts-jest @types/jest supertest @types/supertest --save-dev
+format_text "Jest installed.\n" "green"
+sleep 1
+
+# Project file creation.
+
+# Create tsconfig.json file
+if [ -f ./${setup_name}/tsconfig.json ]; then
+    format_text "File: 'tsconfig.json' already exists, skipping creation.\n" "yellow"
+    sleep 1
+else
+    format_text "Creating 'tsconfig.json' file:"
+    cp ${script_path}/${setup_files_path}/tsconfig-setup.txt ./${setup_name}/tsconfig.json
+    format_text "'tsconfig.json' file created.\n" "green"
+    sleep 1
+fi
 
 # Create src folder and sub-directories
 format_text "Creating directory system:" "" "bold"
@@ -146,12 +155,6 @@ format_text "Creating 'app.ts' & 'server.ts' files:" "" "bold"
 cp ${script_path}/${setup_files_path}/app-setup.txt ./${setup_name}/src/app.ts
 cp ${script_path}/${setup_files_path}/server-setup.txt ./${setup_name}/src/server.ts
 format_text "'app.ts' & 'server.ts' file created in source directory\n" "green"
-sleep 1
-
-# Install Jest
-format_text "Installing Jest:" "" "bold"
-npm install --prefix ./${setup_name} jest ts-jest @types/jest supertest @types/supertest --save-dev
-format_text "Jest installed.\n" "green"
 sleep 1
 
 # Create Jest configuration file and test directory
