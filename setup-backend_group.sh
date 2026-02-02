@@ -101,6 +101,8 @@ fi
 #exit
 
 # NPM Module installation.
+format_text "Installing modules..." "green" "blink"
+
 # Script Files and Directories creation.
 format_text "Starting installation:\n" "green" "bold"
 npm init -y &> /dev/null
@@ -132,6 +134,7 @@ format_text "Jest installed.\n" "green"
 sleep 1
 
 # Project file creation.
+format_text "Creating project structure..." "green" "blink"
 
 # Create tsconfig.json file
 if [ -f ./${setup_name}/tsconfig.json ]; then
