@@ -53,16 +53,16 @@ do
     read -p "Do you want to run the script in the current directory?: " run_script
 
     case "${run_script}" in
-	y)
-        format_text "Running script.\n" "green" "blink"
-	    break
-        ;;
-	n)
-        format_text "Exiting from script.\n" "red" "bold"
-	    exit
-	    ;;
-	*)
-        format_text "Answer with <y/n> \n" "red" "bold" ;;
+        y)
+            format_text "Running script.\n" "green" "blink"
+            break
+            ;;
+        n)
+            format_text "Exiting from script.\n" "red" "bold"
+            exit
+            ;;
+        *)
+            format_text "Answer with <y/n> \n" "red" "bold" ;;
     esac
 done
 
@@ -121,16 +121,16 @@ do
     read -p "Install npm modules?: " ask_npm_mods
 
     case "${ask_npm_mods}" in
-	y)
-        format_text "Installing modules...\n" "green" "blink"
-        break
-        ;;
-	n)
-        format_text "Skipping module installation.\n" "red" "bold"
-        break
-	    ;;
-	*)
-        format_text "Answer with <y/n> \n" "red" "bold" ;;
+        y)
+            format_text "Installing modules...\n" "green" "blink"
+            break
+            ;;
+        n)
+            format_text "Skipping module installation.\n" "red" "bold"
+            break
+            ;;
+        *)
+            format_text "Answer with <y/n> \n" "red" "bold" ;;
     esac
 done
 
@@ -176,16 +176,16 @@ do
     read -p "Create project structure? (directories & files): " ask_create_structs
 
     case "${ask_create_structs}" in
-	y)
-        format_text "Creating project structure...\n" "green" "blink"
-	    break
-        ;;
-	n)
-        format_text "Skipping project structure creation.\n" "red" "bold"
-        break
-	    ;;
-	*)
-        format_text "Answer with <y/n> \n" "red" "bold" ;;
+        y)
+            format_text "Creating project structure...\n" "green" "blink"
+            break
+            ;;
+        n)
+            format_text "Skipping project structure creation.\n" "red" "bold"
+            break
+            ;;
+        *)
+            format_text "Answer with <y/n> \n" "red" "bold" ;;
     esac
 done
 
