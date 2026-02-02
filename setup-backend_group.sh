@@ -101,83 +101,128 @@ fi
 #exit
 
 # NPM Module installation.
-format_text "Installing modules..." "green" "blink"
+ask_npm_mods=""
 
-# Script Files and Directories creation.
-format_text "Starting installation:\n" "green" "bold"
-npm init -y &> /dev/null
-mv package.json ./${setup_name}
-format_text "Created and moved 'package.json' to ${PWD}/${setup_name}\n"
-sleep 1
+while :;
+do
+    read -p "Install npm modules?: " ask_npm_mods
 
-# Install Typescript
-format_text "Installing TypeScript:" "" "bold"
-npm install --prefix ./${setup_name} typescript ts-node @types/node --save-dev
-format_text "TypeScript installed.\n" "green"
-sleep 1
+    case "${ask_npm_mods}" in
+	y)
+        format_text "Installing modules..." "green" "blink"
+        break
+        ;;
+	n)
+        format_text "Skipping module installation.\n" "red" "bold"
+        break
+	    ;;
+	*)
+        format_text "Answer with <y/n> \n" "red" "bold" ;;
+    esac
+done
 
-# Install Express & Morgan
-format_text "Installing Express:" "" "bold"
-npm install --prefix ./${setup_name} express
-npm install --prefix ./${setup_name} @types/express --save-dev
-format_text "Express installed.\n" "green" 
-sleep 1
-format_text "Installing Morgan (HTTP Logging):" "" "bold"
-npm install --prefix ./${setup_name} morgan @types/morgan
-format_text "Morgan installed.\n" "green"
-sleep 1
+if [[ ${ask_npm_mods} =~ ^[yY]+$ ]]; then install_npm_mods=true ; else install_npm_mods=false ; fi
 
-# Install Jest
-format_text "Installing Jest:" "" "bold"
-npm install --prefix ./${setup_name} jest ts-jest @types/jest supertest @types/supertest --save-dev
-format_text "Jest installed.\n" "green"
-sleep 1
-
-# Project file creation.
-format_text "Creating project structure..." "green" "blink"
-
-# Create tsconfig.json file
-if [ -f ./${setup_name}/tsconfig.json ]; then
-    format_text "File: 'tsconfig.json' already exists, skipping creation.\n" "yellow"
+if $install_npm_mods; then
+    # Script Files and Directories creation.
+    format_text "Starting installation:\n" "green" "bold"
+    npm init -y &> /dev/null
+    mv package.json ./${setup_name}
+    format_text "Created and moved 'package.json' to ${PWD}/${setup_name}\n"
     sleep 1
-else
-    format_text "Creating 'tsconfig.json' file:"
-    cp ${script_path}/${setup_files_path}/tsconfig-setup.txt ./${setup_name}/tsconfig.json
-    format_text "'tsconfig.json' file created.\n" "green"
+
+    # Install Typescript
+    format_text "Installing TypeScript:" "" "bold"
+    npm install --prefix ./${setup_name} typescript ts-node @types/node --save-dev
+    format_text "TypeScript installed.\n" "green"
+    sleep 1
+
+    # Install Express & Morgan
+    format_text "Installing Express:" "" "bold"
+    npm install --prefix ./${setup_name} express
+    npm install --prefix ./${setup_name} @types/express --save-dev
+    format_text "Express installed.\n" "green" 
+    sleep 1
+    format_text "Installing Morgan (HTTP Logging):" "" "bold"
+    npm install --prefix ./${setup_name} morgan @types/morgan
+    format_text "Morgan installed.\n" "green"
+    sleep 1
+
+    # Install Jest
+    format_text "Installing Jest:" "" "bold"
+    npm install --prefix ./${setup_name} jest ts-jest @types/jest supertest @types/supertest --save-dev
+    format_text "Jest installed.\n" "green"
     sleep 1
 fi
 
-# Create src folder and sub-directories
-format_text "Creating directory system:" "" "bold"
-mkdir -p ${setup_name}/src/api/v1 ${setup_name}/src/api/v1/routes ${setup_name}/src/api/v1/controllers ${setup_name}/src/api/v1/services
-format_text "'src' directory and sub-directories are created.\n" "green"
-sleep 1
 
-# Create app.ts and server.ts file
-format_text "Creating 'app.ts' & 'server.ts' files:" "" "bold"
-cp ${script_path}/${setup_files_path}/app-setup.txt ./${setup_name}/src/app.ts
-cp ${script_path}/${setup_files_path}/server-setup.txt ./${setup_name}/src/server.ts
-format_text "'app.ts' & 'server.ts' file created in source directory\n" "green"
-sleep 1
+# Project file creation.
+ask_create_structs=""
 
-# Create Jest configuration file and test directory
-format_text "Creating 'jest.config.js' file & 'test' directory:" "" "bold"
-mkdir ${setup_name}/test
-cp ${script_path}/${setup_files_path}/jest-setup.txt ./${setup_name}/jest.config.js
-format_text "'jest.config.js' file created in root directory\n" "green"
-sleep 1
+while :;
+do
+    read -p "Create project structure? (directories & files): " ask_create_structs
 
-# Modify package.json file
-format_text "Modifying scripts section in 'package.json' file:\n" "" "bold"
+    case "${ask_create_structs}" in
+	y)
+        format_text "Creating project structure..." "green" "blink"
+	    break
+        ;;
+	n)
+        format_text "Skipping project structure creation.\n" "red" "bold"
+        break
+	    ;;
+	*)
+        format_text "Answer with <y/n> \n" "red" "bold" ;;
+    esac
+done
 
-package_path="./${setup_name}/package.json"
+if [[ ${ask_create_structs} =~ ^[yY]+$ ]]; then create_struct=true ; else create_struct=false ; fi
 
-sed -i '7s/.*/\t"start": "ts\-node src\/server.ts",\n/' ${package_path}
-sed -i '8s/.*/\t"build": "tsc",\n/' ${package_path}
-sed -i '9s/.*/\t"test": "jest",\n/' ${package_path}
-sed -i '10s/.*/\t"test:watch": "jest --watch",\n/' ${package_path}
-sed -i '11s/.*/\t"test:coverage": "jest --coverage"/' ${package_path}
-sleep 1
+if $create_struct; then
+    # Create tsconfig.json file
+    if [ -f ./${setup_name}/tsconfig.json ]; then
+        format_text "File: 'tsconfig.json' already exists, skipping creation.\n" "yellow"
+        sleep 1
+    else
+        format_text "Creating 'tsconfig.json' file:"
+        cp ${script_path}/${setup_files_path}/tsconfig-setup.txt ./${setup_name}/tsconfig.json
+        format_text "'tsconfig.json' file created.\n" "green"
+        sleep 1
+    fi
+
+    # Create src folder and sub-directories
+    format_text "Creating directory system:" "" "bold"
+    mkdir -p ${setup_name}/src/api/v1 ${setup_name}/src/api/v1/routes ${setup_name}/src/api/v1/controllers ${setup_name}/src/api/v1/services
+    format_text "'src' directory and sub-directories are created.\n" "green"
+    sleep 1
+
+    # Create app.ts and server.ts file
+    format_text "Creating 'app.ts' & 'server.ts' files:" "" "bold"
+    cp ${script_path}/${setup_files_path}/app-setup.txt ./${setup_name}/src/app.ts
+    cp ${script_path}/${setup_files_path}/server-setup.txt ./${setup_name}/src/server.ts
+    format_text "'app.ts' & 'server.ts' file created in source directory\n" "green"
+    sleep 1
+
+    # Create Jest configuration file and test directory
+    format_text "Creating 'jest.config.js' file & 'test' directory:" "" "bold"
+    mkdir ${setup_name}/test
+    cp ${script_path}/${setup_files_path}/jest-setup.txt ./${setup_name}/jest.config.js
+    format_text "'jest.config.js' file created in root directory\n" "green"
+    sleep 1
+
+    # Modify package.json file
+    format_text "Modifying scripts section in 'package.json' file:\n" "" "bold"
+
+    package_path="./${setup_name}/package.json"
+
+    sed -i '7s/.*/\t"start": "ts\-node src\/server.ts",\n/' ${package_path}
+    sed -i '8s/.*/\t"build": "tsc",\n/' ${package_path}
+    sed -i '9s/.*/\t"test": "jest",\n/' ${package_path}
+    sed -i '10s/.*/\t"test:watch": "jest --watch",\n/' ${package_path}
+    sed -i '11s/.*/\t"test:coverage": "jest --coverage"/' ${package_path}
+    sleep 1
+fi
 
 # Requires Tree package to be installed.
 #echo -e "${bold}Directory Tree:${normal}"
