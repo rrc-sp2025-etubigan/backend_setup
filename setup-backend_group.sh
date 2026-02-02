@@ -192,13 +192,8 @@ if $create_struct; then
 
     # Create src folder and sub-directories
     format_text "Creating directory system:" "" "bold"
-<<<<<<< HEAD
     mkdir -p ${setup_name}/src/api/v1/{routes,controllers,services}
     mkdir ${setup_name}/src/constants
-=======
-    #mkdir -p ${setup_name}/src/api/v1 ${setup_name}/src/api/v1/routes ${setup_name}/src/api/v1/controllers ${setup_name}/src/api/v1/services
-    mkdir -p ${setup_name}/src/api/v1/{routes,controllers,services}
->>>>>>> 70a741de6b2c9ec6b94cbd24f7f7a62b42e090f4
     format_text "'src' directory and sub-directories are created.\n" "green"
     sleep 1
 
