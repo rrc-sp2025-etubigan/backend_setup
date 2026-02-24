@@ -148,6 +148,18 @@ if $install_npm_mods; then
     format_text "Morgan installed.\n" "green"
     sleep 1
 
+    # Install Firebase
+    format_text "Installing Firebase admin" "" "bold"
+    npm install --prefix ./${setup_name} firebase-admin
+    format_text "Firebase admin installed.\n" "green"
+    sleep 1
+
+    # Install Joi
+    format_text "Installing Joi - Object Schema" "" "bold"
+    npm install --prefix ./${setup_name} joi
+    format_text "Joi installed.\n" "green"
+    sleep 1
+
     # Install Jest
     format_text "Installing Jest:" "" "bold"
     npm install --prefix ./${setup_name} jest ts-jest @types/jest supertest @types/supertest --save-dev
@@ -192,8 +204,9 @@ if $create_struct; then
 
     # Create src folder and sub-directories
     format_text "Creating directory system:" "" "bold"
-    mkdir -p ${setup_name}/src/api/v1/{routes,controllers,services}
+    mkdir -p ${setup_name}/src/api/v1/{routes,controllers,services,types,models,validation,middleware}
     mkdir ${setup_name}/src/constants
+    mkdir ${setup_name}/src/config
     format_text "'src' directory and sub-directories are created.\n" "green"
     sleep 1
 
